@@ -1,4 +1,4 @@
-# @node-https
+# node-https
 
 A simple http request client module based on Node.js `https` module
 

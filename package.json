@@ -1,10 +1,10 @@
 {
   "name": "node-https",
-  "version": "0.1.0",
-  "description": "A simple http request module based on Node.js https",
+  "version": "0.1.1",
+  "description": "A simple http request module based on Node.js https module",
   "main": "dist/index.js",
   "scripts": {
-    "start": "nodemon src/app.ts",
+    "start": "nodemon src/dev.ts",
     "build": "tsc -p .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
