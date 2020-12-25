@@ -1,8 +1,8 @@
 import FormData from 'form-data';
 import { request, RequestOptions } from 'https';
-import { makeFormDate } from './helpers/makeFormDate';
-import { parseResponse } from './helpers/parseResponse';
-import { parseUrl } from './helpers/parseUrl';
+import { makeFormDate } from './helpers/make_form_date';
+import { parseResponse } from './helpers/parse_response';
+import { parseUrl } from './helpers/parse_url';
 import { HttpRequestOptions, Method, HttpResponse } from './types';
 
 export class Request {
