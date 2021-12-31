@@ -8,7 +8,7 @@ export type RequestForm = FormbodyItem[];
 export interface HttpRequestOptions {
   form?: boolean;
   hostname?: string;
-  port?: number;
+  port?: number | string | null;
   path?: string;
   method?: Method;
   headers?: { [key: string]: any };

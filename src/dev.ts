@@ -11,7 +11,8 @@ app.use(formbody);
 const http = new Http();
 
 app.all('/', async (req: Request, res: Response) => {
-  const url = req.query.url as string;
+  const url = req.query.url?.toString();
+  const port = req.query.port?.toString();
   const headers: { [key: string]: any } = {};
 
   // NOTE: Here I only fetch a few header fields for testing purpose
@@ -28,13 +29,17 @@ app.all('/', async (req: Request, res: Response) => {
     form: !!req.is('multipart/form-data'),
   };
 
+  if (port) {
+    options.port = port;
+  }
+
   if (!url || false === /^https?:/.test(url)) {
     return res.status(400).json({ code: 'url_param_missing' });
   }
 
   try {
     const result = await http.request(url, req.method as Method, options);
-    res.status(result.status).json(result.data ?? { body: result.body });
+    res.status(result.status).json(result);
   } catch (e) {
     res.status(e.status || 500).json(e.data);
   }

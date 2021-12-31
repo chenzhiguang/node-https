@@ -1,17 +1,23 @@
 import { HttpResponse } from '../types';
 
-export const parseResponse = (status: number, body: string): HttpResponse => {
+// NOTE:
+// result.data can only be JSON data.
+export const parseResponse = (status: number, body: any): HttpResponse => {
   const result: HttpResponse = { status };
 
-  if (!body) {
-    result.body = '';
-  } else {
-    try {
-      const json = JSON.parse(body);
-      result.data = json;
-    } catch {
-      result.body = body;
+  try {
+    const data = JSON.parse(body);
+
+    if (
+      data === null ||
+      ['boolean', 'number', 'string'].indexOf(typeof data) !== -1
+    ) {
+      result.body = data;
+    } else {
+      result.data = data;
     }
+  } catch {
+    result.body = body;
   }
 
   return result;

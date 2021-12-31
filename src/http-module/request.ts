@@ -1,5 +1,6 @@
 import FormData from 'form-data';
-import { request, RequestOptions } from 'https';
+import { request as httpsRequest, RequestOptions } from 'https';
+import { request as httpRequest } from 'http';
 import { makeFormDate } from './helpers/make_form_date';
 import { parseResponse } from './helpers/parse_response';
 import { parseUrl } from './helpers/parse_url';
@@ -33,15 +34,18 @@ export class Request {
     }
     // NOTE: is header 'Content-Length': data.length needed?
 
+    const parsedUrl = parseUrl(url, options.params);
+
     const requestOptions: RequestOptions = {
-      ...parseUrl(url, options.params),
+      hostname: parsedUrl.hostname,
+      path: parsedUrl.path,
       port: options.port,
       method,
       headers,
     };
 
     return new Promise((resolve, reject) => {
-      const req = request(requestOptions, (res: any) => {
+      const successHandler = (res: any) => {
         const status = res.statusCode;
         let body = '';
 
@@ -57,7 +61,11 @@ export class Request {
             reject(result);
           }
         });
-      });
+      };
+
+      const req = parsedUrl.isHttps
+        ? httpsRequest(requestOptions, successHandler)
+        : httpRequest(requestOptions, successHandler);
 
       req.on('error', (error: any) => {
         reject({

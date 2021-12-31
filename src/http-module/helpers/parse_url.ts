@@ -8,6 +8,7 @@ export const parseUrl = (
 ): {
   hostname: string;
   path: string;
+  isHttps: boolean;
 } => {
   const urlData = new URL(url);
 
@@ -19,5 +20,6 @@ export const parseUrl = (
   return {
     hostname: urlData.hostname,
     path,
+    isHttps: urlData.protocol === 'https:',
   };
 };
